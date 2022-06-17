@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <style>
+    h1 {
+      color: brown;
+    }
+
+    .assurree {
+      width: 100%;
+    }
+
+    .assurree,
+    .assurree th,
+    .assurree td {
+      border: 1px solid brown;
+      border-collapse: collapse;
+    }
+
+    .assurree th {
+      background-color: brown;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Assurrées</h1>
+
+  <br />
+  <table class="assurree">
+    <tr>
+      <td th:each="c:${columns}" th:text="${c}">
+        <!--td th:colspan="${c.length}" th:text="${c}"></td-->
+      </td>
+    </tr>
+
+    <!--tr th:each="item, iterStat: ${assurrees}">
+      <td th:text="${item.value}"></td>
+    </tr-->
+
+  </table>
+</body>
+
+</html>

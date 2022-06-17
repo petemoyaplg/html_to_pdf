@@ -19,6 +19,10 @@ public class PdfGeneratorRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
+    generatePDF();
+  }
+
+  private void generatePDF() {
     Map<String, Object> data = new HashMap<>();
     Customer customer = new Customer();
     customer.setCompanyName("Simple Solution");
