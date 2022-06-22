@@ -2,7 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <style>
+  <style th:inline="css">
+    :root {
+      --primary-color: [[${brandingConfig?.themeConfig?.primaryColor} ?: '#633EA5']];
+      --secondary-color: [[${brandingConfig?.themeConfig?.secondaryColor} ?: '#E9E6ED']];
+    }
+
+    @page {
+      /* size: A4 landscape; */
+      size: "${orientation} ?: A4 landscape";
+    }
+
+    body {
+      /* writing-mode: tb-rl; */
+      size: A4 landscape;
+    }
+
     h1 {
       color: brown;
     }
@@ -27,20 +42,25 @@
 
 <body>
   <h1>Assurrées</h1>
+  <p th:text="${orientation}"></p>
+  <button class="btn" th:classappend="${orientation} ? 'primary' : 'warning'">
+    Click Here!
+  </button>
 
   <br />
   <table class="assurree">
     <tr>
-      <td th:each="c:${columns}" th:text="${c}">
-        <!--td th:colspan="${c.length}" th:text="${c}"></td-->
-      </td>
+      <th th:each="c:${columns}" th:text="${c}"></th>
     </tr>
 
-    <!--tr th:each="item, iterStat: ${assurrees}">
-      <td th:text="${item.value}"></td>
-    </tr-->
+    <tr th:each="row: ${assurrees}">
+      <td th:each="field: ${row}" th:text="${field}"></td>
+    </tr>
 
   </table>
 </body>
+<script th:inline="javascript">
+  screen.orientation.lock( 'landscape' );
+</script>
 
 </html>

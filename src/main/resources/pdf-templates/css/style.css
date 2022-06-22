@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+div {
+  border: 1px solid black;
+}
+
+.raw {
+  display: flex;
+  flex-direction: column;
+}
+
+.child-l {
+  width: 40%;
+}
+.child-r {
+  width: 60%;
+}
+
+.raw > div > h2 > span {
+  font-style: italic;
+  font-weight: normal;
+}
