@@ -4,23 +4,20 @@
   box-sizing: border-box;
 }
 
-div {
-  border: 1px solid black;
+.c {
+  border-bottom: 1px solid black;
 }
 
-.raw {
-  display: flex;
-  flex-direction: column;
+.col-8 {
+  border-left: 1px solid black;
 }
 
-.child-l {
-  width: 40%;
-}
-.child-r {
-  width: 60%;
+.col-11 {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
-.raw > div > h2 > span {
+.row > div > h2 > span {
   font-style: italic;
   font-weight: normal;
 }
