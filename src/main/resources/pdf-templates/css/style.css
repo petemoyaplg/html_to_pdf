@@ -2,14 +2,58 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* font-size: 15px; */
 }
 
+.container {
+  border: 1px solid black;
+  /* margin: auto 200px;
+  font-family: Georgia, "Times New Roman", Times, serif; */
+}
+/* 
+.row {
+  display: flex;
+  flex-direction: row;
+} */
+.pa {
+  padding: 0;
+}
 .c {
   border-bottom: 1px solid black;
 }
 
 .col-8 {
   border-left: 1px solid black;
+  width: 60%;
+}
+.col-4 {
+  width: 40%;
+}
+
+.x {
+  border-bottom: 1px solid black;
+}
+
+.t {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.tt {
+  text-align: center;
+}
+
+.n {
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+.nn {
+  border-bottom: 1px solid black;
+}
+.nnn {
+  border-left: 1px solid black;
+  text-align: end;
 }
 
 .col-11 {

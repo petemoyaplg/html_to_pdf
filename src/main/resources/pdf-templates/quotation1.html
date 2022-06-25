@@ -9,13 +9,13 @@
     }
 
     @page {
-      /* size: A4 landscape; */
-      size: "${orientation} ?: A4 landscape";
+      size: A3 landscape;
+      /* size: "${orientation} ?: A4 landscape"; */
     }
 
     body {
       /* writing-mode: tb-rl; */
-      size: A4 landscape;
+      /* size: A3 landscape; */
     }
 
     h1 {
@@ -24,6 +24,7 @@
 
     .assurree {
       width: 100%;
+      overflow: auto;
     }
 
     .assurree,
@@ -42,10 +43,6 @@
 
 <body>
   <h1>Assurrées</h1>
-  <p th:text="${orientation}"></p>
-  <button class="btn" th:classappend="${orientation} ? 'primary' : 'warning'">
-    Click Here!
-  </button>
 
   <br />
   <table class="assurree">

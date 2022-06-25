@@ -36,6 +36,7 @@ public class HtmlToPdfApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		getAllUsers();
+		generateCertificat();
 	}
 
 	public void getAllUsers() {
@@ -60,11 +61,33 @@ public class HtmlToPdfApplication implements CommandLineRunner {
 				List<Object> dataItem = new ArrayList<>();
 				for (int i = 0; i < columnCount; i++) {
 					String type = columnTypes.get(i);
-					if (type.equals("serial")) {
+					if (type.equals("serial") || type.equals("int4")) {
 						dataItem.add(rs.getInt(i + 1));
 					}
-					if (type.equals("varchar")) {
+					if (type.equals("int8") || type.equals("bigserial") || type.equals("bigint") || type.equals("oid")) {
+						dataItem.add(rs.getLong(i + 1));
+					}
+					if (type.equals("float4")) {
+						dataItem.add(rs.getFloat(i + 1));
+					}
+					if (type.equals("float8") || type.equals("money")) {
+						dataItem.add(rs.getDouble(i + 1));
+					}
+					if (type.equals("varchar") || type.equals("char") || type.equals("bpchar") || type.equals("text")
+							|| type.equals("name")) {
 						dataItem.add(rs.getString(i + 1));
+					}
+					if (type.equals("bool") || type.equals("bit")) {
+						dataItem.add(rs.getBoolean(i + 1));
+					}
+					if (type.equals("date")) {
+						dataItem.add(rs.getDate(i + 1));
+					}
+					if (type.equals("time") || type.equals("timetz")) {
+						dataItem.add(rs.getTime(i + 1));
+					}
+					if (type.equals("timestamp") || type.equals("timestamptz")) {
+						dataItem.add(rs.getTimestamp(i + 1));
 					}
 				}
 				dataList.add(dataItem);
@@ -80,6 +103,10 @@ public class HtmlToPdfApplication implements CommandLineRunner {
 		data.put("assurrees", dataList);
 		data.put("orientation", false);
 		pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
+	}
+
+	private void generateCertificat() {
+		pdfGenerateService.generatePdfFile("certificat-assurance", null, "certificat.pdf");
 	}
 
 }
