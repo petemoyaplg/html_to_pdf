@@ -27,7 +27,7 @@ public class HtmlToPdfApplication implements CommandLineRunner {
 	private final static String user = "postgres";
 	private final static String password = "12345";
 
-	private static final String SELECT_ALL = "SELECT * FROM public.assurree";
+	private static final String SQL = "SELECT * FROM public.assurree ORDER BY id";
 
 	public static void main(String[] args) {
 		SpringApplication.run(HtmlToPdfApplication.class, args);
@@ -36,12 +36,12 @@ public class HtmlToPdfApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		getAllUsers();
-		generateCertificat();
+		// generateCertificat();
 	}
 
 	public void getAllUsers() {
 		try (Connection connection = DriverManager.getConnection(url, user, password);
-				PreparedStatement ps = connection.prepareStatement(SELECT_ALL);) {
+				PreparedStatement ps = connection.prepareStatement(SQL);) {
 			ResultSet rs = ps.executeQuery();
 
 			ResultSetMetaData metaData = rs.getMetaData();
