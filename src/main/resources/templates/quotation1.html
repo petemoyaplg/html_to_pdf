@@ -39,50 +39,10 @@
       color: white;
     }
   </style>
-
-  <!--Load the AJAX API-->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-
-    // Load the Visualization API and the corechart package.
-    google.charts.load( 'current', { 'packages': [ 'corechart' ] } );
-
-    // Set a callback to run when the Google Visualization API is loaded.
-    google.charts.setOnLoadCallback( drawChart );
-
-    // Callback that creates and populates a data table,
-    // instantiates the pie chart, passes in the data and
-    // draws it.
-    function drawChart () {
-
-      // Create the data table.
-      var data = new google.visualization.DataTable();
-      data.addColumn( 'string', 'Topping' );
-      data.addColumn( 'number', 'Slices' );
-      data.addRows( [
-        [ 'Mushrooms', 3 ],
-        [ 'Onions', 1 ],
-        [ 'Olives', 1 ],
-        [ 'Zucchini', 1 ],
-        [ 'Pepperoni', 2 ]
-      ] );
-
-      // Set chart options
-      var options = {
-        'title': 'How Much Pizza I Ate Last Night',
-        'width': 400,
-        'height': 300
-      };
-
-      // Instantiate and draw our chart, passing in some options.
-      var chart = new google.visualization.PieChart( document.getElementById( 'chart_div' ) );
-      chart.draw( data, options );
-    }
-  </script>
 </head>
 
 <body>
-  <h1>Assurrées</h1>
+  <h1>Assurrées ABC</h1>
 
   <br />
   <table class="assurree">
@@ -94,38 +54,13 @@
       <td th:each="field: ${row}" th:text="${field}"></td>
     </tr>
 
-    <tr>
-      <td th:each="d:${datatable}" th:text="${d}"></td>
-    </tr>
-
   </table>
 
   <canvas id="myChart" width="400" height="100"></canvas>
-
-
-  <h1>Google Charts With Thymeleaf</h1>
-  <div id="chart_div"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
     integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
   <script th:inline="javascript">
-
-
-    /*<![CDATA[*/
-
-    let datatable = [ [ ${ datatable } ] ];
-    console.log( "Data Value : " + datatable );
-
-    // let test = [ [ ${ test } ] ];
-
-    // console.log( "TEST Value : " + test );
-
-    /*]]>*/
-    console.log( '====================================' );
-    console.log( "ok" );
-    console.log( '====================================' );
-
     const ctx = document.getElementById( 'myChart' ).getContext( '2d' );
     const myChart = new Chart( ctx, {
       type: 'bar',
@@ -133,7 +68,7 @@
         labels: [ 'Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange' ],
         datasets: [ {
           label: 'Nombre de votes',
-          data: [ [ ${ data } ] ],
+          data: [ 12, 19, 3, 5, 2, 3 ],
           backgroundColor: [
             'rgba(255, 99, 132, 0.7)',
             'rgba(54, 162, 235, 0.7)',

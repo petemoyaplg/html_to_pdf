@@ -33,9 +33,16 @@ public class HtmlToPdfController {
   @GetMapping("/")
   public String index(Model model) {
     Map<String, Object> allUsers = getAllUsers();
-    System.out.println("===================================================================");
-    System.out.println("allUsers : " + allUsers);
-    model.addAttribute("quotation1", allUsers);
+
+    int[] data = { 12, 19, 3, 5, 2, 3 };
+    String[] columnsTable = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+
+    allUsers.put("columnsTable", columnsTable);
+    allUsers.put("datatable", data);
+
+    model.addAttribute("allUsers", allUsers);
+    model.addAttribute("datatable", data);
+    model.addAttribute("test", "test");
     return "quotation1";
   }
 
@@ -109,6 +116,8 @@ public class HtmlToPdfController {
     data.put("columns", columnNames);
     data.put("assurrees", dataList);
     data.put("orientation", false);
+    int[] val = { 12, 19, 3, 5, 2, 3 };
+    data.put("datatable", val);
     pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
   }
 }
