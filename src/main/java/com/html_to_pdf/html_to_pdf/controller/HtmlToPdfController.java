@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.html_to_pdf.html_to_pdf.services.PdfGenerateService;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
 
 @Controller
 public class HtmlToPdfController {
@@ -32,22 +35,23 @@ public class HtmlToPdfController {
 
   @GetMapping("/")
   public String index(Model model) {
-    Map<String, Object> allUsers = getAllUsers();
+    Map<String, Object> data = getData();
 
-    int[] data = { 12, 19, 3, 5, 2, 3 };
-    String[] columnsTable = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    model.addAttribute("allUsers", data);
+    model.addAttribute("datatable", data.get("datatable"));
+    model.addAttribute("columnsTable", data.get("columnsTable"));
 
-    allUsers.put("columnsTable", columnsTable);
-    allUsers.put("datatable", data);
-
-    model.addAttribute("allUsers", allUsers);
-    model.addAttribute("datatable", data);
-    model.addAttribute("test", "test");
+    model.addAttribute("backgroundColor", data.get("backgroundColor"));
+    model.addAttribute("borderColor", data.get("borderColor"));
+    model.addAttribute("type", "line");
     return "quotation1";
   }
 
-  public Map<String, Object> getAllUsers() {
+  public Map<String, Object> getData() {
     Map<String, Object> data = new HashMap<>();
+    List<Integer> datatable = new ArrayList<>();
+    List<Object> columnsTable = new ArrayList<>();
+
     try (Connection connection = DriverManager.getConnection(url, user, password);
         PreparedStatement ps = connection.prepareStatement(SQL);) {
       ResultSet rs = ps.executeQuery();
@@ -63,7 +67,6 @@ public class HtmlToPdfController {
       System.out.println(columnNames);
       System.out.println(columnTypes);
 
-      // Step 4: Process the ResultSet object.
       List<List<Object>> dataList = new ArrayList<>();
       while (rs.next()) {
         List<Object> dataItem = new ArrayList<>();
@@ -98,26 +101,46 @@ public class HtmlToPdfController {
             dataItem.add(rs.getTimestamp(i + 1));
           }
         }
+        datatable.add(rs.getInt("quantite"));
+        columnsTable.add(rs.getString("date_create1"));
+
         dataList.add(dataItem);
       }
-      generatePDF(columnNames, dataList);
+
+      // generatePDF(columnNames, dataList);
 
       data.put("columns", columnNames);
       data.put("assurrees", dataList);
       data.put("orientation", false);
+
+      data.put("columnsTable", columnsTable);
+      data.put("datatable", datatable);
+
+      List<String> backgroundColor = new ArrayList<>();
+      List<String> borderColor = new ArrayList<>();
+      for (int i = 0; i < dataList.size(); i++) {
+        String bgColor = "rgba(" + randInt(1, 255) + ", " + randInt(1, 255) + ", "
+            + randInt(1, 255)
+            + ", 0.7)";
+        String bColor = "rgba(" + randInt(1, 255) + ", " + randInt(1, 255) + ", "
+            + randInt(1, 255)
+            + ", 1)";
+        backgroundColor.add(bgColor);
+        borderColor.add(bColor);
+      }
+
+      data.put("backgroundColor", backgroundColor);
+      data.put("borderColor", borderColor);
+      data.put("type", "line");
+
+      pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
 
     } catch (SQLException e) {
     }
     return data;
   }
 
-  private void generatePDF(List<String> columnNames, List<List<Object>> dataList) {
-    Map<String, Object> data = new HashMap<>();
-    data.put("columns", columnNames);
-    data.put("assurrees", dataList);
-    data.put("orientation", false);
-    int[] val = { 12, 19, 3, 5, 2, 3 };
-    data.put("datatable", val);
-    pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
+  public static int randInt(int min, int max) {
+    return new Random().nextInt((max - min) + 1) + min;
   }
 }
