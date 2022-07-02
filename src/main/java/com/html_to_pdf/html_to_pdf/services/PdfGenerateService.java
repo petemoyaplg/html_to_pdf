@@ -13,6 +13,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Service
 public class PdfGenerateService {
@@ -32,8 +33,9 @@ public class PdfGenerateService {
     System.out.println(pdfDirectory);
 
     String htmlContent = templateEngine.process(templateName, context);
+    FileOutputStream fileOutputStream = null;
     try {
-      FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName);
+      fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName);
       ITextRenderer renderer = new ITextRenderer();
       renderer.setDocumentFromString(htmlContent);
       renderer.layout();
@@ -43,6 +45,14 @@ public class PdfGenerateService {
       logger.error(e.getMessage(), e);
     } catch (DocumentException e) {
       logger.error(e.getMessage(), e);
+    } finally {
+      if (fileOutputStream != null) {
+        try {
+          fileOutputStream.close();
+        } catch (IOException e) {
+          System.out.println(e.getMessage());
+        }
+      }
     }
   }
 }
