@@ -63,22 +63,22 @@
 
   </table>
 
-  <canvas id="myChart" width="400" height="100" th:text="${datatable}"></canvas>
+  <canvas id="myChart" width="400" height="100"></canvas>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
+  <script th:inline="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
     integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" th:inline="javascript"></script>
+    crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
 
   <script th:inline="javascript">
 
 
     /*<![CDATA[*/
 
-    let datatable = [ [ ${ datatable } ] ];
-    let columnsTable = [ [ ${ columnsTable } ] ];
-    let backgroundColor = [ [ ${ backgroundColor } ] ];
-    let borderColor = [ [ ${ borderColor } ] ];
-    let type = [ [ ${ type } ] ];
+    let datatable = [[ ${ datatable } ]];
+    let columnsTable = [[ ${ columnsTable } ]];
+    let backgroundColor = [[ ${ backgroundColor } ]];
+    let borderColor = [[ ${ borderColor } ]];
+    let type = [[ ${ type } ]];
     console.log( '====================================' );
     console.log( type );
     console.log( '====================================' );
@@ -95,7 +95,7 @@
           data: datatable,
           backgroundColor,
           borderColor,
-          borderWidth: 1
+          // borderWidth: 1
         } ]
       },
       options: {
