@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.html_to_pdf.html_to_pdf.services.PdfGenerateService;
 import com.lowagie.text.Document;
@@ -29,28 +30,39 @@ public class HtmlToPdfController {
 
   private final static String url = "jdbc:postgresql://localhost:5432/bd_assurre";
   private final static String user = "postgres";
-  private final static String password = "12345-";
+  private final static String password = "12345";
 
   private static final String SQL = "SELECT * FROM public.assurree ORDER BY id";
 
   @GetMapping("/")
   public String index(Model model) {
     Map<String, Object> data = getData();
+    Map<String, Object> series = new HashMap<>();
+    series.put("key1", "data1");
+    series.put("key2", "data2");
+    series.put("key3", "data3");
+    series.put("key4", "data4");
+    series.put("key5", "data5");
 
-    model.addAttribute("allUsers", data);
-    model.addAttribute("datatable", data.get("datatable"));
-    model.addAttribute("columnsTable", data.get("columnsTable"));
+    model.addAttribute("series", series);
+    model.addAttribute("serie1", data);
+    model.addAttribute("y", data.get("y"));
+    model.addAttribute("x", data.get("x"));
+    model.addAttribute("columnNames", data.get("columnNames"));
+    model.addAttribute("dataList", data.get("dataList"));
 
     model.addAttribute("backgroundColor", data.get("backgroundColor"));
     model.addAttribute("borderColor", data.get("borderColor"));
     model.addAttribute("type", "line");
-    return "quotation1";
+    model.addAttribute("nbRapport", 3);
+
+    return "htmla4";
   }
 
   public Map<String, Object> getData() {
     Map<String, Object> data = new HashMap<>();
-    List<Integer> datatable = new ArrayList<>();
-    List<Object> columnsTable = new ArrayList<>();
+    List<Integer> y = new ArrayList<>();
+    List<Object> x = new ArrayList<>();
 
     try (Connection connection = DriverManager.getConnection(url, user, password);
         PreparedStatement ps = connection.prepareStatement(SQL);) {
@@ -101,20 +113,20 @@ public class HtmlToPdfController {
             dataItem.add(rs.getTimestamp(i + 1));
           }
         }
-        datatable.add(rs.getInt("quantite"));
-        columnsTable.add(rs.getString("date_create1"));
+        y.add(rs.getInt("quantite"));
+        x.add(rs.getString("date_create"));
 
         dataList.add(dataItem);
       }
 
       // generatePDF(columnNames, dataList);
 
-      data.put("columns", columnNames);
-      data.put("assurrees", dataList);
+      data.put("columnNames", columnNames);
+      data.put("dataList", dataList);
       data.put("orientation", false);
 
-      data.put("columnsTable", columnsTable);
-      data.put("datatable", datatable);
+      data.put("x", x);
+      data.put("y", y);
 
       List<String> backgroundColor = new ArrayList<>();
       List<String> borderColor = new ArrayList<>();
@@ -133,7 +145,7 @@ public class HtmlToPdfController {
       data.put("borderColor", borderColor);
       data.put("type", "line");
 
-      pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
+      // pdfGenerateService.generatePdfFile("quotation1", data, "quotation1.pdf");
 
     } catch (SQLException e) {
     }

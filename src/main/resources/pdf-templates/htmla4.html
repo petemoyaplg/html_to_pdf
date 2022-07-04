@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
   <style>
     body {
       background: rgb(204, 204, 204);
@@ -14,8 +16,8 @@
       background: white;
       display: block;
       margin: 0 auto;
-      margin-bottom: 0.5cm;
-      padding: 15px;
+      /* margin-bottom: 0.5cm; */
+      padding: 20px;
     }
 
     page[size="A4"] {
@@ -28,12 +30,63 @@
       height: 21cm;
     }
 
+    table {
+      border: 3px solid #6495ed;
+      border-collapse: collapse;
+      width: 50%;
+      margin: auto;
+    }
+
+    thead,
+    tfoot {
+      background-color: #D0E3FA;
+      background-image: url(sky.jpg);
+      border: 1px solid #6495ed;
+    }
+
+    tbody {
+      background-color: #FFFFFF;
+      border: 1px solid #6495ed;
+    }
+
+    th {
+      font-family: monospace;
+      border: 1px dotted #6495ed;
+      padding: 5px;
+      background-color: #EFF6FF;
+      width: 25%;
+    }
+
+    td {
+      font-family: sans-serif;
+      font-size: 80%;
+      border: 1px solid #6495ed;
+      padding: 5px;
+      text-align: left;
+    }
+
+    th,td{
+      text-align: center;
+    }
+
+    caption {
+      font-family: sans-serif;
+    }
+
     @media print {
 
       body,
       page {
         margin: 0;
         box-shadow: 0;
+      }
+
+      @page :footer {
+        display: none
+      }
+
+      @page :header {
+        display: none
       }
     }
   </style>
@@ -42,40 +95,103 @@
 
 <body>
   <page size="A4">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-      aliquip ex ea commodo consequat. Duis aute irure dolor in
-      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-      culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-      aliquip ex ea commodo consequat. Duis aute irure dolor in
-      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-      culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-      aliquip ex ea commodo consequat. Duis aute irure dolor in
-      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-      pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-      culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-      ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-      aliquip ex ea commodo consequat.
-    </p>
+    <table>
+      <tr>
+        <th th:each="c:${columnNames}" th:text="${c}"></th>
+      </tr>
+      <tr th:each="row: ${dataList}">
+        <td th:each="field: ${row}" th:text="${field}"></td>
+      </tr>
+    </table>
+
+    <div class="container-fluid">
+    <th:block th:each="entry:${series}">
+      <table>
+        <tr>
+          <th th:each="c:${columnNames}" th:text="${c}"></th>
+        </tr>
+      </table>
+
+      </div>
+      <br/>
+    </th:block>
+
+    <canvas id="myChart" width="400" height="100"></canvas>
   </page>
-  <!-- <page size="A4" layout="portrait">A4 portrait</page> -->
+  <!-- <page size="A4" layout="portrait">
+    <table>
+      <tr>
+        <th th:each="c:${columnNames}" th:text="${c}"></th>
+      </tr>
+
+      <tr th:each="row: ${dataList}">
+        <td th:each="field: ${row}" th:text="${field}"></td>
+      </tr>
+
+    </table>
+
+    <canvas id="myChart" width="400" height="100"></canvas>
+  </page> -->
+
+  <script th:inline="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"
+    integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+  <script th:inline="javascript">
+
+
+    /*<![CDATA[*/
+
+    let y = [[ ${ y } ]];
+    let x = [[ ${ x } ]];
+    let backgroundColor = [[ ${ backgroundColor } ]];
+    let borderColor = [[ ${ borderColor } ]];
+    let type = [[ ${ type } ]];
+
+
+    let columnNames = [[ ${ columnNames } ]];
+    let dataList = [[ ${ dataList } ]];
+    console.log( '====================================' );
+    console.log( columnNames );
+    console.log( '====================================' );
+    console.log( '====================================' );
+    console.log( dataList );
+    console.log( '====================================' );
+    /*]]>*/
+
+
+    const ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+    const myChart = new Chart( ctx, {
+      type,
+      data: {
+        labels: x,
+        datasets: [ {
+          label: 'Nombre de votes',
+          data: y,
+          backgroundColor,
+          borderColor,
+          // borderWidth: 1
+        } ]
+      },
+      options: {
+        legend: {},
+        responsive: true,
+        //   scales: {
+        //     y: {
+        //       beginAtZero: true
+        //     }
+        //   }
+      }
+    } );
+
+
+  </script>
 </body>
 
 </html>
