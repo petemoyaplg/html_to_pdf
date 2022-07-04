@@ -29,7 +29,7 @@ public class HtmlToPdfController {
 
   private final static String url = "jdbc:postgresql://localhost:5432/bd_assurre";
   private final static String user = "postgres";
-  private final static String password = "12345";
+  private final static String password = "12345-";
 
   private static final String SQL = "SELECT * FROM public.assurree ORDER BY id";
 
