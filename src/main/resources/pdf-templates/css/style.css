@@ -1,67 +1,86 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* font-size: 15px; */
-}
+    body {
+      background: rgb(204, 204, 204);
+    }
 
-.container {
-  border: 1px solid black;
-  /* margin: auto 200px;
-  font-family: Georgia, "Times New Roman", Times, serif; */
-}
-/* 
-.row {
-  display: flex;
-  flex-direction: row;
-} */
-.pa {
-  padding: 0;
-}
-.c {
-  border-bottom: 1px solid black;
-}
+    page {
+      background: white;
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 0.5cm;
+      padding: 20px;
+    }
 
-.col-8 {
-  border-left: 1px solid black;
-  width: 60%;
-}
-.col-4 {
-  width: 40%;
-}
+    page[size="A4"] {
+      width: 21cm;
+      height: 29.7cm;
+    }
 
-.x {
-  border-bottom: 1px solid black;
-}
+    page[size="A4"][layout="portrait"] {
+      width: 29.7cm;
+      height: 21cm;
+    }
 
-.t {
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-}
+    table {
+      border: 3px solid #6495ed;
+      border-collapse: collapse;
+      width: 100%;
+      margin: auto;
+    }
 
-.tt {
-  text-align: center;
-}
+    thead,
+    tfoot {
+      background-color: #D0E3FA;
+      border: 1px solid #6495ed;
+    }
 
-.n {
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-}
-.nn {
-  border-bottom: 1px solid black;
-}
-.nnn {
-  border-left: 1px solid black;
-  text-align: end;
-}
+    tbody {
+      background-color: #FFFFFF;
+      border: 1px solid #6495ed;
+    }
 
-.col-11 {
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
-}
+    th {
+      font-family: monospace;
+      border: 1px dotted #6495ed;
+      padding: 5px;
+      background-color: #EFF6FF;
+      width: 25%;
+    }
 
-.row > div > h2 > span {
-  font-style: italic;
-  font-weight: normal;
-}
+    td {
+      font-family: sans-serif;
+      font-size: 80%;
+      border: 1px solid #6495ed;
+      padding: 5px;
+      text-align: left;
+    }
+
+    th,
+    td {
+      text-align: center;
+    }
+
+    caption {
+      font-family: sans-serif;
+    }
+
+    #chart {
+      max-width: 650px;
+      margin: 35px auto;
+    }
+
+    @media print {
+
+      body,
+      page {
+        margin: 0;
+        box-shadow: 0;
+      }
+
+      @page :footer {
+        display: none
+      }
+
+      @page :header {
+        display: none
+      }
+    }

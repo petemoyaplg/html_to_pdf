@@ -1,5 +1,9 @@
 /*<![CDATA[*/
 
+let series = [[ ${ series } ]];
+console.log('====================================');
+console.log(series);
+console.log('====================================');
 let datatable = [[ ${ datatable } ]];
 let columnsTable = [ [ ${ columnsTable } ]];
 let backgroundColor = [[ ${ backgroundColor } ]];
